@@ -47,14 +47,31 @@ const Navigation = () => {
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="cursor-pointer"
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer flex-shrink-0"
               onClick={() => scrollToSection('#home')}
             >
-              <img src={logo} alt="Logo" className="h-10 w-auto animate-glow" />
+              <motion.img 
+                src={logo} 
+                alt="Logo" 
+                className="h-10 w-auto"
+                animate={{
+                  filter: [
+                    'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
+                    'drop-shadow(0 0 12px hsl(0 100% 55% / 0.6))',
+                    'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
             </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            {/* Desktop Navigation - Full Width */}
+            <div className="hidden md:flex items-center justify-end flex-1 gap-1 lg:gap-3">
               {navLinks.map((link, index) => (
                 <motion.button
                   key={link.name}
@@ -62,7 +79,7 @@ const Navigation = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(link.href)}
-                  className="px-3 lg:px-4 py-2 text-sm lg:text-base text-foreground hover:text-primary transition-smooth rounded-lg hover:bg-muted"
+                  className="px-4 lg:px-6 py-2 text-sm lg:text-base text-foreground hover:text-primary transition-smooth rounded-lg hover:bg-muted font-medium"
                 >
                   {link.name}
                 </motion.button>

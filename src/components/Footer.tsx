@@ -17,9 +17,9 @@ const Footer = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <h3 className="font-display text-2xl font-bold gradient-text mb-4">Portfolio</h3>
+              <h3 className="font-display text-2xl font-bold gradient-text mb-4">Mahmoud Frikha</h3>
               <p className="text-muted-foreground text-sm">
-                Creating innovative digital experiences with passion and precision.
+                Embedded Systems & Web Engineer crafting innovative and intelligent solutions.
               </p>
             </div>
 
@@ -43,7 +43,7 @@ const Footer = () => {
             <div>
               <h4 className="font-display font-semibold text-foreground mb-4">Stay Updated</h4>
               <p className="text-muted-foreground text-sm mb-4">
-                Get notified about new projects and updates.
+                Get notified about my latest projects, articles, and research updates.
               </p>
               <div className="flex gap-2">
                 <input
@@ -64,7 +64,7 @@ const Footer = () => {
           {/* Bottom Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground flex items-center gap-1">
-              © {currentYear} Portfolio. Made with <Heart className="h-4 w-4 text-red-500" /> by Creative Developer
+              © {currentYear} Mahmoud Frikha. Made with <Heart className="h-4 w-4 text-red-500" /> and passion
             </p>
 
             <div className="flex items-center gap-4">
