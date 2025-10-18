@@ -99,6 +99,18 @@ export default {
         "scale-in": {
           "0%": { transform: "scale(0.9)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" }
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" }
+        },
+        "rotate-gradient": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" }
+        },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" }
         }
       },
       animation: {
@@ -110,6 +122,9 @@ export default {
         "float": "float 3s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
         "scale-in": "scale-in 0.5s ease-out",
+        "shimmer": "shimmer 3s linear infinite",
+        "rotate-gradient": "rotate-gradient 8s linear infinite",
+        "bounce-slow": "bounce-slow 2s ease-in-out infinite",
       },
     },
   },

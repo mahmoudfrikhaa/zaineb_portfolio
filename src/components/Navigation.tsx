@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/logo.svg';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,10 +47,10 @@ const Navigation = () => {
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="font-display text-xl lg:text-2xl font-bold gradient-text cursor-pointer"
+              className="cursor-pointer"
               onClick={() => scrollToSection('#home')}
             >
-              Portfolio
+              <img src={logo} alt="Logo" className="h-10 w-auto animate-glow" />
             </motion.div>
 
             {/* Desktop Navigation */}
