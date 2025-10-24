@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { usePerfMode } from '@/hooks/use-perf';
 
 const Projects = () => {
   const navigate = useNavigate();
+  const { isLowPower } = usePerfMode();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -50,7 +52,7 @@ const Projects = () => {
       tags: ['STM32', 'Arduino', 'RAMPS 1.5', 'C++', 'SolidWorks', 'SPI', 'UART'],
       gradient: 'from-red-600 to-black',
       category: 'Embedded',
-      imageUrl: 'badge-express.png',
+      imageUrl: 'badge.jpg',
       features: [
         'Automatic badge dispensing mechanism',
         'Laser and IR-based object detection',
@@ -84,7 +86,7 @@ const Projects = () => {
       tags: ['WordPress', 'Elementor', 'ACF', 'Polylang', 'Azure', 'HTML', 'CSS'],
       gradient: 'from-purple-600 to-red-500',
       category: 'Web',
-      imageUrl: 'esse-lab.png',
+      imageUrl: 'esse.jpg',
       features: [
         'Bilingual content management (FR/EN)',
         'Custom ACF fields for dynamic updates',
@@ -118,7 +120,7 @@ const Projects = () => {
       gradient: 'from-blue-600 to-indigo-700',
       category: 'AI',
       imageUrl: 'rag-assistant.png',
-      videoUrl: 'demo.mp4',
+      videoUrl: 'demo_small.mp4',
       features: [
         'Hybrid retrieval combining semantic (vector) and lexical (FTS) search',
         'Real-time orchestration between RAG, web search, and standard LLM modes',
@@ -207,6 +209,8 @@ const Projects = () => {
                 src={`/${project.imageUrl}`}
                 alt={project.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
@@ -222,9 +226,9 @@ const Projects = () => {
           
           {/* Category Badge */}
           <div className="absolute top-4 right-4 z-10">
-            <Badge className="bg-white/95 text-gray-900 backdrop-blur-sm font-medium px-3 py-1 shadow-lg border border-white/20">
+            <span className="inline-block bg-gradient-primary text-white backdrop-blur-sm font-medium px-4 py-2 rounded-full shadow-lg text-sm">
               {project.category}
-            </Badge>
+            </span>
           </div>
           
           {/* Animated gradient overlay on hover */}
@@ -248,14 +252,14 @@ const Projects = () => {
             {project.tags.slice(0, 3).map((tag: string) => (
               <motion.span
                 key={tag}
-                whileHover={{ scale: 1.1, y: -2 }}
-                className="px-3 py-1 bg-muted rounded-lg text-xs font-medium text-foreground border border-border group-hover:border-primary/50 transition-smooth"
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="px-3 py-1.5 bg-gradient-primary/10 rounded-full text-xs font-medium text-primary border border-primary/20 hover:border-primary/50 hover:bg-gradient-primary/20 transition-all duration-300"
               >
                 {tag}
               </motion.span>
             ))}
             {project.tags.length > 3 && (
-              <span className="px-3 py-1 text-xs font-medium text-primary">
+              <span className="px-3 py-1.5 rounded-full text-xs font-medium text-primary bg-primary/10 border border-primary/20">
                 +{project.tags.length - 3}
               </span>
             )}
@@ -265,8 +269,8 @@ const Projects = () => {
           <div className="pt-4 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-smooth">
             <span className="text-sm font-medium">View Details</span>
             <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
+              animate={isLowPower ? undefined : { x: [0, 5, 0] }}
+              transition={isLowPower ? undefined : { repeat: Infinity, duration: 1.5 }}
             >
               →
             </motion.span>
@@ -315,20 +319,21 @@ const Projects = () => {
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((category) => (
-              <Badge
+              <motion.button
                 key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                className={`cursor-pointer px-4 py-2 transition-spring ${
-                  selectedCategory === category
-                    ? 'bg-gradient-primary text-white hover:opacity-90'
-                    : 'hover:bg-primary hover:text-white'
-                }`}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-gradient-primary text-white shadow-lg shadow-primary/30'
+                    : 'bg-card text-foreground border border-border hover:border-primary hover:shadow-md'
+                }`}
               >
                 {category}
-              </Badge>
+              </motion.button>
             ))}
           </div>
         </motion.div>

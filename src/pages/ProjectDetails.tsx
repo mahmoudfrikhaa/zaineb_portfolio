@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { useEffect, useState } from 'react';
 import PageTransition from '@/components/PageTransition';
 import Navigation from '@/components/Navigation';
+import { usePerfMode } from '@/hooks/use-perf';
 
 const ProjectDetails = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const ProjectDetails = () => {
   const project = location.state?.project;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+  const { isLowPower } = usePerfMode();
 
   // Gallery images for ConvoZoom
   const galleryImages = project?.title === 'ConvoZoom' ? [
@@ -46,13 +48,12 @@ const ProjectDetails = () => {
   // Auto-play carousel
   useEffect(() => {
     if (galleryImages.length === 0) return;
-    
     const interval = setInterval(() => {
       nextSlide();
-    }, 3000); // Change slide every 3 seconds
+    }, isLowPower ? 5000 : 3000); // slower autoplay on low-power
 
     return () => clearInterval(interval);
-  }, [currentSlide, galleryImages.length]);
+  }, [currentSlide, galleryImages.length, isLowPower]);
 
   if (!project) {
     navigate('/');
@@ -239,35 +240,34 @@ const ProjectDetails = () => {
                       <motion.div
                         key={currentSlide}
                         custom={direction}
-                        initial={{ 
-                          x: direction > 0 ? 1000 : -1000,
-                          opacity: 0,
-                          scale: 0.8,
-                          rotateY: direction > 0 ? 45 : -45
-                        }}
-                        animate={{ 
-                          x: 0,
-                          opacity: 1,
-                          scale: 1,
-                          rotateY: 0
-                        }}
-                        exit={{ 
-                          x: direction > 0 ? -1000 : 1000,
-                          opacity: 0,
-                          scale: 0.8,
-                          rotateY: direction > 0 ? -45 : 45
-                        }}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 300,
-                          damping: 30
-                        }}
+                        initial={
+                          isLowPower
+                            ? { x: direction > 0 ? 100 : -100, opacity: 0 }
+                            : { x: direction > 0 ? 1000 : -1000, opacity: 0, scale: 0.8, rotateY: direction > 0 ? 45 : -45 }
+                        }
+                        animate={
+                          isLowPower
+                            ? { x: 0, opacity: 1 }
+                            : { x: 0, opacity: 1, scale: 1, rotateY: 0 }
+                        }
+                        exit={
+                          isLowPower
+                            ? { x: direction > 0 ? -100 : 100, opacity: 0 }
+                            : { x: direction > 0 ? -1000 : 1000, opacity: 0, scale: 0.8, rotateY: direction > 0 ? -45 : 45 }
+                        }
+                        transition={
+                          isLowPower
+                            ? { type: 'tween', duration: 0.35, ease: 'easeOut' }
+                            : { type: 'spring', stiffness: 300, damping: 30 }
+                        }
                         className="absolute inset-0"
                       >
                         <img
                           src={galleryImages[currentSlide]}
                           alt={`${project.title} screenshot ${currentSlide + 1}`}
                           className="w-full h-full object-cover"
+                          loading="lazy"
+                          decoding="async"
                         />
                         
                         {/* Gradient Overlay */}
@@ -328,6 +328,8 @@ const ProjectDetails = () => {
                           src={image}
                           alt={`Thumbnail ${index + 1}`}
                           className="w-full h-full object-cover"
+                          loading="lazy"
+                          decoding="async"
                         />
                         {currentSlide === index && (
                           <motion.div

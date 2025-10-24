@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.svg';
+import { usePerfMode } from '@/hooks/use-perf';
 
 const Navigation = () => {
+  const { isLowPower } = usePerfMode();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -55,14 +57,14 @@ const Navigation = () => {
                 src={logo} 
                 alt="Logo" 
                 className="h-10 w-auto"
-                animate={{
+                animate={isLowPower ? undefined : {
                   filter: [
                     'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
                     'drop-shadow(0 0 12px hsl(0 100% 55% / 0.6))',
                     'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
                   ],
                 }}
-                transition={{
+                transition={isLowPower ? undefined : {
                   duration: 3,
                   repeat: Infinity,
                   ease: 'easeInOut',
@@ -100,29 +102,32 @@ const Navigation = () => {
       </motion.nav>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: '100%' }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: '100%' }}
-          className="fixed inset-0 z-40 bg-card/95 backdrop-blur-lg md:hidden"
-        >
-          <div className="flex flex-col items-center justify-center h-full space-y-8">
-            {navLinks.map((link, index) => (
-              <motion.button
-                key={link.name}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => scrollToSection(link.href)}
-                className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-smooth"
-              >
-                {link.name}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-lg md:hidden pt-20"
+          >
+            <div className="flex flex-col items-center justify-start h-full space-y-6 px-6 py-8 overflow-y-auto">
+              {navLinks.map((link, index) => (
+                <motion.button
+                  key={link.name}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => scrollToSection(link.href)}
+                  className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-smooth w-full text-center py-4 hover:bg-muted rounded-lg"
+                >
+                  {link.name}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

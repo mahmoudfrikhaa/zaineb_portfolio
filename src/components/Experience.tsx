@@ -21,7 +21,7 @@ const Experience = () => {
     {
       icon: GraduationCap,
       type: 'Education',
-      title: 'National Engineering Entrance Exam (Preparatory Cycle – Physics & Chemistry Section)',
+      title: 'Pre-Engineering Studies – Physics and Chemistry ',
       organization: 'Faculty of Sciences of Sfax',
       period: '2019 – 2023',
       description: '',
@@ -105,11 +105,11 @@ const Experience = () => {
 
         <div className="max-w-4xl mx-auto relative">
           {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border" />
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border transform md:-translate-x-1/2" />
 
           {/* Timeline Items */}
           <div className="space-y-12">
-            {timeline.map((item, index) => (
+            {[...timeline].reverse().map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
@@ -120,34 +120,36 @@ const Experience = () => {
                 }`}
               >
                 {/* Content */}
-                <div className={`w-full md:w-[calc(50%-3rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
+                <div className={`w-full pl-20 md:pl-0 md:w-[calc(50%-3rem)] ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
                   <motion.div
                     whileHover={{ scale: 1.03, y: -8 }}
-                    className="bg-card border border-border rounded-2xl p-6 hover:border-primary transition-smooth group relative overflow-hidden"
+                    className="bg-card border border-border rounded-2xl p-4 sm:p-6 hover:border-primary transition-smooth group relative overflow-hidden"
                   >
                     <motion.div
                       className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity"
                       initial={false}
                     />
-                    <div className="flex items-start gap-4 relative z-10">
+                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 relative z-10">
                       <motion.div 
-                        className={`p-3 rounded-xl border-2 ${getColorClass(item.color)} group-hover:glow-primary transition-smooth`}
+                        className={`p-2.5 sm:p-3 rounded-xl border-2 flex-shrink-0 ${getColorClass(item.color)} group-hover:glow-primary transition-smooth`}
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
                       >
-                        <item.icon className="h-6 w-6" />
+                        <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                       </motion.div>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="text-xs font-medium text-muted-foreground mb-1">{item.type}</div>
-                        <h3 className="font-display text-lg font-semibold text-foreground mb-1 group-hover:gradient-text transition-smooth">
+                        <h3 className="font-display text-base sm:text-lg font-semibold text-foreground mb-1 group-hover:gradient-text transition-smooth">
                           {item.title}
                         </h3>
-                        <div className="text-sm font-medium text-muted-foreground mb-2">
+                        <div className="text-xs sm:text-sm font-medium text-muted-foreground mb-2 break-words">
                           {item.organization} • {item.period}
                         </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {item.description}
-                        </p>
+                        {item.description && (
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -155,7 +157,7 @@ const Experience = () => {
 
                 {/* Center Dot with pulse animation */}
                 <motion.div 
-                  className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 rounded-full bg-gradient-primary border-4 border-background z-10"
+                  className="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-primary border-4 border-background z-10"
                   initial={{ scale: 0 }}
                   animate={inView ? { scale: 1 } : {}}
                   transition={{ duration: 0.4, delay: index * 0.15 }}

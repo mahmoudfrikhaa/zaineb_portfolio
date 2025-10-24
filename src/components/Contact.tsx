@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, MapPin, Phone, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, MapPin, Phone, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePerfMode } from '@/hooks/use-perf';
 
 const Contact = () => {
+  const { isLowPower } = usePerfMode();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -12,18 +14,18 @@ const Contact = () => {
   const contactInfo = [
     { icon: Mail, label: 'Email', value: 'mahmoud.frikha.12@gmail.com', href: 'mailto:mahmoud.frikha.12@gmail.com' },
     { icon: Phone, label: 'Phone', value: '+216 25 870 278', href: 'tel:+216 25 870 278' },
-    { icon: MapPin, label: 'Location', value: 'Sfax, Tunisia', href: '#' },
+    { icon: MapPin, label: 'Location', value: 'Tunisia', href: '#' },
   ];
 
   const socialLinks = [
     { icon: Github, label: 'GitHub', href: 'https://github.com/mahmoudfrikhaa', color: 'hover:text-primary' },
     { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mahmoud-frikha-503b05198/', color: 'hover:text-primary' },
-    { icon: Twitter, label: 'Twitter', href: 'https://twitter.com', color: 'hover:text-accent' },
   ];
 
   return (
     <section id="contact" className="py-20 lg:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial opacity-40" />
+      {!isLowPower && (
       <motion.div 
         className="absolute top-0 right-1/4 w-96 h-96 rounded-full blur-3xl"
         style={{
@@ -41,6 +43,8 @@ const Contact = () => {
           ease: 'easeInOut',
         }}
       />
+      )}
+      {!isLowPower && (
       <motion.div 
         className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full blur-3xl"
         style={{
@@ -59,6 +63,7 @@ const Contact = () => {
           delay: 1,
         }}
       />
+      )}
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         <motion.div
@@ -157,7 +162,7 @@ const Contact = () => {
                 className="bg-white text-primary hover:bg-white/90 font-semibold"
                 asChild
               >
-                <a href="/Mahmoud-Frikha-CV.pdf" download>Download CV</a>
+                <a href="/Mahmoud_Resume.pdf" download>Download CV</a>
               </Button>
             </div>
           </motion.div>

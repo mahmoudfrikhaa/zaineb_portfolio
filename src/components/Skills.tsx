@@ -10,40 +10,40 @@ const Skills = () => {
 
   const skillCategories = [
     {
-      icon: Code,
-      name: 'Front-End',
-      color: 'text-primary',
-      skills: ['WordPress', 'Angular', 'TypeScript'],
-    },
-    {
-      icon: Server,
-      name: 'Back-End',
-      color: 'text-secondary',
-      skills: ['Node.js', 'Express.js', 'Flask', 'Python', 'REST APIs', 'Firebase', 'MySQL'],
-    },
-    {
       icon: Cpu,
       name: 'Embedded Systems',
       color: 'text-accent',
       skills: ['Arduino', 'STM32', 'ESP32', 'Raspberry Pi', 'SPI/UART/I2C', 'Real-time control'],
     },
     {
-      icon: Palette,
-      name: 'Design',
-      color: 'text-primary',
-      skills: ['UI/UX Design', 'Figma'],
-    },
-    {
       icon: Database,
       name: 'Data & Databases',
       color: 'text-secondary',
-      skills: ['MySQL', 'Firebase', 'SQLite', 'PostgreSQL', 'MongoDB', 'Data Analysis'],
+      skills: ['MySQL', 'Firebase', 'PostgreSQL'],
     },
     {
       icon: Brain,
       name: 'Tools',
       color: 'text-accent',
-      skills: ['GitLab', 'GitHub', 'VS Code', 'IAR', 'STM32CubeMX', 'Docker', 'XAMPP'],
+      skills: ['GitLab', 'GitHub', 'VS Code', 'IAR', 'STM32CubeMX', 'Docker', 'LabVIEW']
+    },
+    {
+      icon: Code,
+      name: 'Front-End',
+      color: 'text-primary',
+      skills: ['WordPress', 'Angular'],
+    },
+    {
+      icon: Server,
+      name: 'Back-End',
+      color: 'text-secondary',
+      skills: ['Node.js', 'Flask', 'Python', 'REST APIs', 'Firebase'],
+    },
+    {
+      icon: Palette,
+      name: 'Design',
+      color: 'text-primary',
+      skills: ['UI/UX Design', 'Figma'],
     },
   ];
 

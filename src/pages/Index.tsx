@@ -36,34 +36,36 @@ const Index = () => {
   }, [location]);
 
   return (
-    <PageTransition>
+    <>
       <PageLoader />
-      <AnimatedBackground />
-      <div className="min-h-screen bg-background text-foreground relative">
-        <Navigation />
-        <main>
-          <Hero />
-          <Suspense fallback={<SectionLoader />}>
-            <About />
+      <PageTransition>
+        <AnimatedBackground />
+        <div className="min-h-screen bg-background text-foreground relative">
+          <Navigation />
+          <main>
+            <Hero />
+            <Suspense fallback={<SectionLoader />}>
+              <About />
+            </Suspense>
+            <Suspense fallback={<SectionLoader />}>
+              <Skills />
+            </Suspense>
+            <Suspense fallback={<SectionLoader />}>
+              <Projects />
+            </Suspense>
+            <Suspense fallback={<SectionLoader />}>
+              <Experience />
+            </Suspense>
+            <Suspense fallback={<SectionLoader />}>
+              <Contact />
+            </Suspense>
+          </main>
+          <Suspense fallback={null}>
+            <Footer />
           </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Skills />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Projects />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Experience />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Contact />
-          </Suspense>
-        </main>
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
-      </div>
-    </PageTransition>
+        </div>
+      </PageTransition>
+    </>
   );
 };
 

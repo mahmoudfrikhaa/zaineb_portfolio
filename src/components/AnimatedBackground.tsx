@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { usePerfMode } from '@/hooks/use-perf';
 
 interface Particle {
   id: number;
@@ -11,14 +12,15 @@ interface Particle {
 }
 
 const AnimatedBackground = () => {
+  const { isLowPower } = usePerfMode();
   const [particles, setParticles] = useState<Particle[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Generate particles
+    if (isLowPower) return; // skip costly setup entirely
+    // Generate particles (reduced count on moderate devices could be another step)
     const particleCount = 50;
     const newParticles: Particle[] = [];
-    
     for (let i = 0; i < particleCount; i++) {
       newParticles.push({
         id: i,
@@ -29,7 +31,6 @@ const AnimatedBackground = () => {
         delay: Math.random() * 2,
       });
     }
-    
     setParticles(newParticles);
 
     // Track mouse movement
@@ -42,7 +43,27 @@ const AnimatedBackground = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isLowPower]);
+
+  // Low power: render a minimal, static background only
+  if (isLowPower) {
+    return (
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-black">
+          <div className="absolute inset-0 bg-gradient-radial opacity-40" />
+        </div>
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage: `linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)`,
+              backgroundSize: '50px 50px',
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">

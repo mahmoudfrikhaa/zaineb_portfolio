@@ -3,12 +3,21 @@ import { ArrowRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import heroBackground from '@/assets/hero-background.jpg';
 import mahmoudPhoto from '@/assets/mahmoud.png';
+import { usePerfMode } from '@/hooks/use-perf';
 
 const Hero = () => {
+  const { isLowPower } = usePerfMode();
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  
+  // Always call hooks unconditionally - React requirement
+  const y1Transform = useTransform(scrollY, [0, 500], [0, 150]);
+  const y2Transform = useTransform(scrollY, [0, 500], [0, -150]);
+  const opacityTransform = useTransform(scrollY, [0, 300], [1, 0]);
+  
+  // Use the transforms only if not low power
+  const y1 = isLowPower ? 0 : y1Transform;
+  const y2 = isLowPower ? 0 : y2Transform;
+  const opacity = isLowPower ? 1 : opacityTransform;
   
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -18,9 +27,9 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="relative min-h-[120vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20 md:pt-20 md:pb-0">
       {/* Background Image with Overlay */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: y1 }}>
+      <motion.div className="absolute inset-0 z-0" style={{ y: y1 as any }}>
         <div 
           className="absolute inset-0 bg-cover bg-center scale-110"
           style={{ backgroundImage: `url(${heroBackground})` }}
@@ -29,6 +38,7 @@ const Hero = () => {
       </motion.div>
 
       {/* Enhanced Animated Elements - Red themed */}
+      {!isLowPower && (
       <motion.div 
         className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-30" 
         style={{ 
@@ -45,6 +55,8 @@ const Hero = () => {
           ease: 'easeInOut',
         }}
       />
+      )}
+      {!isLowPower && (
       <motion.div 
         className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-30" 
         style={{ 
@@ -62,20 +74,22 @@ const Hero = () => {
           delay: 1,
         }}
       />
+      )}
 
       {/* Content */}
-      <motion.div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8" style={{ opacity }}>
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
+  <motion.div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center max-w-7xl mx-auto">
           
           {/* Left side - Profile Photo */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative hidden lg:block"
+            className="relative"
           >
             <div className="relative w-full max-w-sm mx-auto">
               {/* Animated glow effect */}
+              {!isLowPower && (
               <motion.div 
                 className="absolute inset-0 bg-gradient-primary rounded-3xl blur-3xl opacity-30" 
                 animate={{
@@ -88,13 +102,12 @@ const Hero = () => {
                   ease: 'easeInOut',
                 }}
               />
+              )}
               
               {/* Image with smooth float animation */}
               <motion.div
-                animate={{
-                  y: [0, -10, 0],
-                }}
-                transition={{
+                animate={isLowPower ? undefined : { y: [0, -10, 0] }}
+                transition={isLowPower ? undefined : {
                   duration: 3,
                   repeat: Infinity,
                   ease: 'easeInOut',
@@ -109,6 +122,7 @@ const Hero = () => {
                   src={mahmoudPhoto}
                   alt="Mahmoud"
                   className="relative rounded-3xl w-full h-auto shadow-2xl border-2 border-primary/40 hover:border-primary transition-all duration-500"
+                  decoding="async"
                   whileHover={{
                     boxShadow: '0 0 40px rgba(255, 0, 0, 0.4)',
                   }}
@@ -123,7 +137,7 @@ const Hero = () => {
           </motion.div>
 
           {/* Right side - Text Content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-6">
           {/* Greeting with sparkle effect */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -211,7 +225,7 @@ const Hero = () => {
                 className="border-2 text-lg px-8 py-6 hover:bg-muted transition-smooth backdrop-blur-sm"
                 asChild
               >
-                <a href="/Mahmoud-Frikha-CV.pdf" download>
+                <a href="/Mahmoud_Resume.pdf" download>
                   <Download className="mr-2 h-5 w-5" />
                   Download CV
                 </a>
@@ -255,25 +269,27 @@ const Hero = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-        style={{ opacity }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
+      {!isLowPower && (
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
+          style={{ opacity: opacity as any }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 12, 0] }}
+            animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-1.5 h-1.5 bg-primary rounded-full"
-          />
+            className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2"
+          >
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1.5 h-1.5 bg-primary rounded-full"
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </section>
   );
 };
