@@ -71,8 +71,8 @@ const ProjectDetails = () => {
     gradient: project.gradient || 'from-primary to-secondary',
     github: project.github || project.githubUrl || '',
     demo: project.demo || project.liveUrl || '',
-    image: project.image || project.imageUrl || '',
-    videoUrl: project.videoUrl || '',
+    image: (project.image || project.imageUrl || '').replace(/^\//,'') ,
+    videoUrl: (project.videoUrl || project.video || '').replace(/^\//,'') ,
   };
 
   return (

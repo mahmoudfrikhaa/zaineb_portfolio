@@ -11,6 +11,8 @@ interface Project {
   features?: string[];
   demoUrl?: string;
   githubUrl?: string;
+  imageUrl?: string;
+  video?: string;
 }
 
 interface ProjectModalProps {
@@ -120,6 +122,28 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                     ))}
                   </div>
                 </motion.div>
+
+                {/* Project Video */}
+                {project.video && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55 }}
+                  >
+                    <h3 className="font-display text-xl font-semibold mb-3">Demo Video</h3>
+                    <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-card border">
+                      <video 
+                        className="w-full h-full object-cover"
+                        controls
+                        preload="metadata"
+                        poster={project.imageUrl ? `/${project.imageUrl}` : undefined}
+                      >
+                        <source src={project.video} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </motion.div>
+                )}
 
                 {/* Action Buttons */}
                 <motion.div

@@ -169,6 +169,26 @@ const Projects = () => {
         'Responsive PWA-ready UI'
       ],
     },
+    {
+      title: 'Simon Says',
+      description: 'An embedded Simon Says game implementation using STM32 and LCD display for interactive memory challenges.',
+      fullDescription: 'A complete memory game system built from scratch, integrating embedded programming, real-time control, and interactive user interface. The system uses STM32 for core game logic and LED sequence control, push buttons for player input, and an I2C LCD display for instructions and feedback. The project incorporates difficulty selection and progressive complexity with visual and timing challenges. Features include multiple difficulty levels, score tracking, and smooth LED animations that create an engaging gaming experience.',
+      tags: ['STM32', 'C', 'I2C', 'STM32CubeMX'],
+      gradient: 'from-blue-600 to-purple-600',
+      category: 'Embedded',
+      imageUrl: 'projects/SimonSays.png', // ensure relative (served from public/projects)
+      video: 'videos/SimonSays.mp4', // removed leading slash to avoid double //
+      features: [
+        'Real-time LED sequence generation and display',
+        'Multi-level difficulty progression system',
+        'I2C LCD display for game instructions and scores',
+        'Precise timing control for sequence playback',
+        'User input validation with immediate feedback',
+        'Score tracking and high score storage',
+        'Smooth LED animations and visual effects',
+        'Robust button debouncing and input handling'
+      ],
+    },
   ];
 
   const filteredProjects = projects.filter((project) => {
@@ -204,18 +224,16 @@ const Projects = () => {
       >
         {/* Gradient Header */}
         <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-          {/* Project Image - Always Visible */}
-          {project.imageUrl ? (
+          {/* Project Image - supports image or imageUrl */}
+          {(project.imageUrl || project.image) ? (
             <>
               <img
-                src={`/${project.imageUrl}`}
+                src={`/${(project.imageUrl || project.image).replace(/^\//,'')}`}
                 alt={project.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-card/20 to-transparent" />
             </>
