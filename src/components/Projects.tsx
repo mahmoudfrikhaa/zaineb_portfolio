@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { useSiteData } from '@/hooks/use-site-data';
 import { usePerfMode } from '@/hooks/use-perf';
 
 const Projects = () => {
   const navigate = useNavigate();
+  const { data } = useSiteData();
   const { isLowPower } = usePerfMode();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -18,7 +20,7 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', 'Web', 'Embedded', 'IoT', 'AI'];
+  const categories = data?.projects?.categories ?? ['All', 'Web', 'Embedded', 'IoT', 'AI'];
 
   // 3D Card effect hook
   const useCard3D = () => {
@@ -44,7 +46,7 @@ const Projects = () => {
     return { rotateX, rotateY, handleMouseMove, handleMouseLeave };
   };
 
-  const projects = [
+  const projects = (data?.projects?.items as any[] | undefined) ?? [
     {
       title: 'Badge Express System',
       description: 'An autonomous badge dispensing machine integrating STM32 and Arduino for automated user identification.',
@@ -249,7 +251,7 @@ const Projects = () => {
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2">
-            {project.tags.slice(0, 3).map((tag: string) => (
+            {(project.technologies || project.tags || []).slice(0, 3).map((tag: string) => (
               <motion.span
                 key={tag}
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -258,9 +260,9 @@ const Projects = () => {
                 {tag}
               </motion.span>
             ))}
-            {project.tags.length > 3 && (
+            {(project.technologies || project.tags || []).length > 3 && (
               <span className="px-3 py-1.5 rounded-full text-xs font-medium text-primary bg-primary/10 border border-primary/20">
-                +{project.tags.length - 3}
+                +{(project.technologies || project.tags || []).length - 3}
               </span>
             )}
           </div>
@@ -292,10 +294,10 @@ const Projects = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Featured <span className="gradient-text">Projects</span>
+            {(data?.projects?.heading ?? 'Featured Projects').split(' ').slice(0, -1).join(' ')} <span className="gradient-text">{(data?.projects?.heading ?? 'Featured Projects').split(' ').slice(-1)}</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Showcasing innovative solutions and creative implementations
+            {data?.projects?.subheading ?? 'Showcasing innovative solutions and creative implementations'}
           </p>
         </motion.div>
 

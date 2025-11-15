@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logo from '@/assets/logo.svg';
+import { useSiteData } from '@/hooks/use-site-data';
 import { usePerfMode } from '@/hooks/use-perf';
 
 const Navigation = () => {
   const { isLowPower } = usePerfMode();
+  const { data } = useSiteData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,7 +42,7 @@ const Navigation = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-card/80 backdrop-blur-lg border-b border-border' : 'bg-transparent'
+          isScrolled ? 'bg-black/95 backdrop-blur-lg border-b border-border' : 'bg-black/80 backdrop-blur-sm'
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,14 +55,14 @@ const Navigation = () => {
               onClick={() => scrollToSection('#home')}
             >
               <motion.img 
-                src={logo} 
-                alt="Logo" 
-                className="h-10 w-auto"
+                src={data?.site?.logo ?? '/Logo zaineb.svg'} 
+                alt="Zaineb Logo" 
+                className="h-14 w-auto brightness-110"
                 animate={isLowPower ? undefined : {
                   filter: [
-                    'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
-                    'drop-shadow(0 0 12px hsl(0 100% 55% / 0.6))',
-                    'drop-shadow(0 0 8px hsl(0 90% 50% / 0.4))',
+                    'drop-shadow(0 0 12px rgba(161, 82, 155, 0.8)) brightness(1.1)',
+                    'drop-shadow(0 0 16px rgba(161, 82, 155, 1)) brightness(1.2)',
+                    'drop-shadow(0 0 12px rgba(161, 82, 155, 0.8)) brightness(1.1)',
                   ],
                 }}
                 transition={isLowPower ? undefined : {

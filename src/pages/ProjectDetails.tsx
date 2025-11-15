@@ -60,6 +60,21 @@ const ProjectDetails = () => {
     return null;
   }
 
+  // Safe data access with fallbacks
+  const projectData = {
+    title: project.title || 'Project',
+    category: project.category || 'Project',
+    description: project.description || '',
+    longDescription: project.longDescription || project.description || '',
+    technologies: project.technologies || project.tags || [],
+    features: project.features || [],
+    gradient: project.gradient || 'from-primary to-secondary',
+    github: project.github || project.githubUrl || '',
+    demo: project.demo || project.liveUrl || '',
+    image: project.image || project.imageUrl || '',
+    videoUrl: project.videoUrl || '',
+  };
+
   return (
     <PageTransition>
       <Navigation />
@@ -77,7 +92,7 @@ const ProjectDetails = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="relative py-20 overflow-hidden"
       >
-        <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-20`} />
+        <div className={`absolute inset-0 bg-gradient-to-br ${projectData.gradient} opacity-20`} />
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
         
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,8 +120,8 @@ const ProjectDetails = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Badge className={`mb-4 bg-gradient-to-r ${project.gradient} text-white`}>
-                {project.category}
+              <Badge className={`mb-4 bg-gradient-to-r ${projectData.gradient} text-white`}>
+                {projectData.category}
               </Badge>
             </motion.div>
 
@@ -116,7 +131,7 @@ const ProjectDetails = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 gradient-text"
             >
-              {project.title}
+              {projectData.title}
             </motion.h1>
 
             <motion.p
@@ -125,7 +140,7 @@ const ProjectDetails = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-xl text-muted-foreground mb-8"
             >
-              {project.description}
+              {projectData.description}
             </motion.p>
 
             {/* Action Buttons */}
@@ -135,20 +150,20 @@ const ProjectDetails = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap gap-4"
             >
-              {project.githubUrl && (
+              {projectData.github && (
                 <Button
                   asChild
                   className="bg-gradient-primary hover:opacity-90 transition-smooth"
                 >
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={projectData.github} target="_blank" rel="noopener noreferrer">
                     <Github className="mr-2 h-5 w-5" />
                     View on GitHub
                   </a>
                 </Button>
               )}
-              {project.liveUrl && (
+              {projectData.demo && (
                 <Button variant="outline" asChild>
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={projectData.demo} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-5 w-5" />
                     Live Demo
                   </a>
@@ -171,12 +186,13 @@ const ProjectDetails = () => {
               className="bg-card border border-border rounded-2xl p-8"
             >
               <h2 className="font-display text-2xl font-bold mb-4">About This Project</h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {project.fullDescription}
+              <p className="text-muted-foreground leading-relaxed text-lg whitespace-pre-line">
+                {projectData.longDescription}
               </p>
             </motion.div>
 
             {/* Technologies */}
+            {projectData.technologies.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -185,7 +201,7 @@ const ProjectDetails = () => {
             >
               <h2 className="font-display text-2xl font-bold mb-6">Technologies Used</h2>
               <div className="flex flex-wrap gap-3">
-                {project.tags.map((tag: string, index: number) => (
+                {projectData.technologies.map((tag: string, index: number) => (
                   <motion.span
                     key={tag}
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -199,8 +215,10 @@ const ProjectDetails = () => {
                 ))}
               </div>
             </motion.div>
+            )}
 
             {/* Key Features */}
+            {projectData.features.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -209,7 +227,7 @@ const ProjectDetails = () => {
             >
               <h2 className="font-display text-2xl font-bold mb-6">Key Features</h2>
               <div className="space-y-4">
-                {project.features.map((feature: string, index: number) => (
+                {projectData.features.map((feature: string, index: number) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -223,6 +241,7 @@ const ProjectDetails = () => {
                 ))}
               </div>
             </motion.div>
+            )}
 
             {/* Carousel Gallery for ConvoZoom */}
             {galleryImages.length > 0 && (
@@ -358,7 +377,7 @@ const ProjectDetails = () => {
             )}
 
             {/* Project Video */}
-            {project.videoUrl && (
+            {projectData.videoUrl && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -372,9 +391,9 @@ const ProjectDetails = () => {
                     preload="metadata"
                     playsInline
                     className="w-full h-full object-contain"
-                    poster={project.imageUrl ? `/${project.imageUrl}` : undefined}
+                    poster={projectData.image ? `/${projectData.image}` : undefined}
                   >
-                    <source src={`/${project.videoUrl}`} type="video/mp4" />
+                    <source src={`/${projectData.videoUrl}`} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>

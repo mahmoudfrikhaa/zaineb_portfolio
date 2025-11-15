@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Briefcase, Award, GraduationCap, Trophy } from 'lucide-react';
+import { useSiteData } from '@/hooks/use-site-data';
 
 const Experience = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { data } = useSiteData();
 
-  const timeline = [
+  const defaultTimeline = [
     {
       icon: GraduationCap,
       type: 'Education',
@@ -73,6 +75,32 @@ const Experience = () => {
       color: 'secondary',
     },
   ];
+  const timeline = (data?.experience?.timeline as any[] | undefined) ?? defaultTimeline;
+
+  // Map data from JSON to expected format
+  const mappedTimeline = timeline.map(item => {
+    // Determine icon based on type
+    let icon = Briefcase;
+    let color = 'primary';
+    
+    if (item.type === 'education' || item.role?.toLowerCase().includes('engineering') || item.role?.toLowerCase().includes('degree')) {
+      icon = GraduationCap;
+      color = 'accent';
+    } else if (item.type === 'work' || item.role?.toLowerCase().includes('internship')) {
+      icon = Briefcase;
+      color = 'secondary';
+    }
+    
+    return {
+      icon: item.icon || icon,
+      type: item.type === 'education' ? 'Education' : item.type === 'work' ? 'Work' : item.type || 'Experience',
+      title: item.title || item.role || '',
+      organization: item.organization || item.company || '',
+      period: item.period || '',
+      description: item.description || '',
+      color: item.color || color,
+    };
+  });
 
   const getColorClass = (color: string) => {
     const colors = {
@@ -96,10 +124,20 @@ const Experience = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Experience & <span className="gradient-text">Achievements</span>
+            {(() => {
+              const heading = data?.experience?.heading ?? 'Experience & Achievements';
+              const words = heading.split(' ');
+              const lastWord = words[words.length - 1];
+              const firstWords = words.slice(0, -1).join(' ');
+              return (
+                <>
+                  {firstWords} <span className="gradient-text">{lastWord}</span>
+                </>
+              );
+            })()}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            A timeline of growth, learning, and accomplishments
+            {data?.experience?.subheading ?? 'A timeline of growth, learning, and accomplishments'}
           </p>
         </motion.div>
 
@@ -109,7 +147,7 @@ const Experience = () => {
 
           {/* Timeline Items */}
           <div className="space-y-12">
-            {[...timeline].reverse().map((item, index) => (
+            {[...mappedTimeline].reverse().map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}

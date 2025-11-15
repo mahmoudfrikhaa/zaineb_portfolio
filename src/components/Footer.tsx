@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Heart, ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSiteData } from '@/hooks/use-site-data';
 
 const Footer = () => {
+  const { data } = useSiteData();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -17,9 +19,9 @@ const Footer = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <h3 className="font-display text-2xl font-bold gradient-text mb-4">Mahmoud Frikha</h3>
+              <h3 className="font-display text-2xl font-bold gradient-text mb-4">{data?.footer?.brandName ?? 'Zaineb'}</h3>
               <p className="text-muted-foreground text-sm">
-                Embedded Systems & Web Engineer crafting innovative and intelligent solutions.
+                {data?.footer?.tagline ?? 'Embedded Systems & Web Engineer crafting innovative and intelligent solutions.'}
               </p>
             </div>
 
@@ -27,7 +29,7 @@ const Footer = () => {
             <div>
               <h4 className="font-display font-semibold text-foreground mb-4">Quick Links</h4>
               <nav className="space-y-2">
-                {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((link) => (
+                {(data?.footer?.quickLinks ?? ['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact']).map((link: string) => (
                   <a
                     key={link}
                     href={`#${link.toLowerCase()}`}
@@ -64,7 +66,7 @@ const Footer = () => {
           {/* Bottom Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground flex items-center gap-1">
-              © {currentYear} Mahmoud Frikha. Made with <Heart className="h-4 w-4 text-red-500" /> and passion
+              © {currentYear} {data?.footer?.brandName ?? 'Zaineb'}. {data?.footer?.copyright ?? 'All rights reserved'} • Made with <Heart className="h-4 w-4 text-red-500" />
             </p>
 
             <div className="flex items-center gap-4">

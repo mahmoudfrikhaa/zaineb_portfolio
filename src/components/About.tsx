@@ -1,17 +1,19 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code2, Sparkles, Rocket, Award } from 'lucide-react';
+import { useSiteData } from '@/hooks/use-site-data';
 
 const About = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { data } = useSiteData();
 
   const { scrollYProgress } = useScroll();
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
 
-  const highlights = [
+  const defaultHighlights = [
     {
       icon: Code2,
       title: 'Embedded Systems',
@@ -33,6 +35,11 @@ const About = () => {
       description: 'Delivering reliable, optimized, and future-ready technological solutions',
     },
   ];
+  const highlights = (data?.about?.highlights as any[] | undefined)?.map((h, i) => ({
+    icon: [Code2, Sparkles, Rocket, Award][i % 4],
+    title: h.title,
+    description: h.description,
+  })) ?? defaultHighlights;
 
   return (
     <section id="about" className="py-20 lg:py-32 relative overflow-hidden">
@@ -51,7 +58,7 @@ const About = () => {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            About <span className="gradient-text">Me</span>
+            {(data?.about?.heading ?? 'About Me').split(' ').slice(0, -1).join(' ')} <span className="gradient-text">{(data?.about?.heading ?? 'About Me').split(' ').slice(-1)}</span>
           </motion.h2>
           <motion.p 
             className="text-muted-foreground text-lg max-w-2xl mx-auto"
@@ -59,7 +66,7 @@ const About = () => {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            A journey of passion, innovation, and continuous learning
+            {data?.about?.subheading ?? 'A journey of passion, innovation, and continuous learning'}
           </motion.p>
         </motion.div>
 
@@ -72,19 +79,25 @@ const About = () => {
             className="space-y-6"
           >
             <div className="prose prose-lg max-w-none">
-              <p className="text-foreground leading-relaxed">
-                I'm <span className="text-primary font-semibold">Mahmoud Frikha</span>, an ambitious and creative engineer specialized in 
-                <span className="text-primary font-semibold"> Embedded Systems</span>, 
-                <span className="text-primary font-semibold"> IoT</span>, and 
-                <span className="text-accent font-semibold"> Web Development</span>. Throughout my academic and professional journey, 
-                I've built a strong foundation in system design, electronics, and software integration. My curiosity for how things work 
-                drives me to transform innovative ideas into real-world technological solutions.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Whether designing intelligent machines, connecting IoT ecosystems, or building scalable digital platforms, I approach 
-                every challenge with precision, creativity, and persistence. I believe that technology should not only work — it should 
-                inspire. Each project I build is a new opportunity to innovate, automate, and make life smarter.
-              </p>
+              {(data?.about?.paragraphs ?? []).length > 0 ? (
+                (data?.about?.paragraphs ?? []).map((p: string, idx: number) => (
+                  <p key={idx} className={idx === 0 ? 'text-foreground leading-relaxed' : 'text-muted-foreground leading-relaxed'}>
+                    {p}
+                  </p>
+                ))
+              ) : (
+                <>
+                  <p className="text-foreground leading-relaxed">
+                    I'm <span className="text-primary font-semibold">Zaineb</span>, an ambitious and creative engineer specialized in
+                    <span className="text-primary font-semibold"> Embedded Systems</span>,
+                    <span className="text-primary font-semibold"> IoT</span>, and
+                    <span className="text-accent font-semibold"> Web Development</span>.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    I approach every challenge with precision, creativity, and persistence.
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8">

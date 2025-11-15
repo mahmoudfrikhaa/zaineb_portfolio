@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code, Database, Brain, Palette, Server, Cpu } from 'lucide-react';
+import { useSiteData } from '@/hooks/use-site-data';
 
 const Skills = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { data } = useSiteData();
 
-  const skillCategories = [
+  const defaultCategories = [
     {
       icon: Cpu,
       name: 'Embedded Systems',
@@ -46,6 +48,13 @@ const Skills = () => {
       skills: ['UI/UX Design', 'Figma'],
     },
   ];
+  const icons = [Cpu, Database, Brain, Code, Server, Palette];
+  const skillCategories = (data?.skills?.categories as any[] | undefined)?.map((c, i) => ({
+    icon: icons[i % icons.length],
+    name: c.name,
+    color: 'text-primary',
+    skills: c.skills || [],
+  })) ?? defaultCategories;
 
   return (
     <section id="skills" className="py-20 lg:py-32 bg-black/50 relative overflow-hidden">
@@ -60,10 +69,10 @@ const Skills = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Technical <span className="gradient-text">Skills</span>
+            {(data?.skills?.heading ?? 'Technical Skills').split(' ').slice(0, -1).join(' ')} <span className="gradient-text">{(data?.skills?.heading ?? 'Technical Skills').split(' ').slice(-1)}</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            A comprehensive toolkit for building modern, intelligent applications
+            {data?.skills?.subheading ?? 'A comprehensive toolkit for building modern, intelligent applications'}
           </p>
         </motion.div>
 

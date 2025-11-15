@@ -3,24 +3,40 @@ import { useInView } from 'react-intersection-observer';
 import { Mail, MapPin, Phone, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePerfMode } from '@/hooks/use-perf';
+import { useSiteData } from '@/hooks/use-site-data';
 
 const Contact = () => {
   const { isLowPower } = usePerfMode();
+  const { data } = useSiteData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const contactInfo = [
+  // Map labels to their appropriate icons; avoids index-based mismatches (e.g. GitHub showing a Phone icon)
+  const iconMap: Record<string, any> = {
+    Email: Mail,
+    GitHub: Github,
+    Location: MapPin,
+    Phone: Phone,
+    LinkedIn: Linkedin,
+  };
+
+  const defaultInfo = [
     { icon: Mail, label: 'Email', value: 'mahmoud.frikha.12@gmail.com', href: 'mailto:mahmoud.frikha.12@gmail.com' },
     { icon: Phone, label: 'Phone', value: '+216 25 870 278', href: 'tel:+216 25 870 278' },
     { icon: MapPin, label: 'Location', value: 'Tunisia', href: '#' },
   ];
 
+  const contactInfo = (data?.contact?.info as any[] | undefined)?.map((c) => ({
+    icon: iconMap[c.label] ?? Mail,
+    ...c,
+  })) ?? defaultInfo;
+
   const socialLinks = [
-    { icon: Github, label: 'GitHub', href: 'https://github.com/mahmoudfrikhaa', color: 'hover:text-primary' },
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mahmoud-frikha-503b05198/', color: 'hover:text-primary' },
-  ];
+    data?.socials?.github ? { icon: Github, label: 'GitHub', href: data.socials.github, color: 'hover:text-primary' } : undefined,
+    data?.socials?.linkedin ? { icon: Linkedin, label: 'LinkedIn', href: data.socials.linkedin, color: 'hover:text-primary' } : undefined,
+  ].filter(Boolean) as any[];
 
   return (
     <section id="contact" className="py-20 lg:py-32 relative overflow-hidden">
@@ -73,10 +89,10 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Let's <span className="gradient-text">Connect</span>
+            {(data?.contact?.heading ?? "Let's Connect").split(' ').slice(0, -1).join(' ')} <span className="gradient-text">{(data?.contact?.heading ?? "Let's Connect").split(' ').slice(-1)}</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Have a project in mind or just want to exchange ideas? I'd love to collaborate.
+            {data?.contact?.subheading ?? "Have a project in mind or just want to exchange ideas? I'd love to collaborate."}
           </p>
         </motion.div>
 
@@ -152,9 +168,9 @@ const Contact = () => {
               initial={false}
             />
             <div className="relative z-10">
-              <h4 className="font-display text-2xl md:text-3xl font-bold mb-3">Ready to build the future together?</h4>
+              <h4 className="font-display text-2xl md:text-3xl font-bold mb-3">{data?.contact?.ctaText ?? 'Ready to build the future together?'}</h4>
               <p className="text-white/90 mb-6 max-w-2xl mx-auto text-lg">
-                Whether it's embedded innovation or full-stack development, I'm always open to creating technology that matters.
+                {data?.contact?.ctaSub ?? "Whether it's embedded innovation or full-stack development, I'm always open to creating technology that matters."}
               </p>
               <Button
                 variant="secondary"
@@ -162,7 +178,7 @@ const Contact = () => {
                 className="bg-white text-primary hover:bg-white/90 font-semibold"
                 asChild
               >
-                <a href="/Mahmoud_Resume.pdf" download>Download CV</a>
+                <a href={data?.contact?.cv ?? '/Mahmoud_Resume.pdf'} download>Download CV</a>
               </Button>
             </div>
           </motion.div>

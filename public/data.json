@@ -1,0 +1,178 @@
+{
+  "site": {
+    "title": "Zaineb Chakroun - Embedded Systems & IoT",
+    "author": "Zaineb Chakroun",
+    "logo": "/Logo zaineb.svg",
+    "favicon": "/Logo zaineb.svg"
+  },
+  "hero": {
+    "welcome": "Welcome to my digital space",
+    "titleLeft": "Embedded Systems",
+    "titleAccent": "& IoT",
+    "titleRight": "Engineer",
+    "subtitle": "Driven engineer passionate about bridging hardware and software. Specialized in embedded systems and IoT architectures.",
+    "primaryCta": "View My Work",
+    "secondaryCta": "Download CV",
+    "cv": "/Zaineb_Resume.pdf",
+    "profileImage": "/zaineb.png"
+  },
+  "socials": {
+    "github": "https://github.com/ZainebChakroun",
+    "linkedin": "https://www.linkedin.com/in/zaineb-chakroun-b81a48364/",
+    "email": "mailto:zainebchakroun17@gmail.com"
+  },
+  "about": {
+    "heading": "About Me",
+    "subheading": "A journey of passion, innovation, and continuous learning",
+    "paragraphs": [
+      "I'm Zaineb Chakroun, an ambitious and imaginative engineer with a focus on Embedded Systems, IoT, and Web Development. Over the course of my studies and experiences, I've built a solid background in system design, electronics, and software integration.",
+      "Driven by curiosity, I love understanding how things work and turning that knowledge into concrete technological solutions. From designing intelligent devices to building connected IoT ecosystems, I tackle every challenge with rigor, creativity, and determination. For me, technology shouldn't just function, it should inspire. Every project I take on is a new chance to innovate, automate, and make everyday life smarter."
+    ],
+    "highlights": [
+      { "title": "Embedded Systems", "description": "Expert in STM32, Arduino, Raspberry Pi, ESP32, and real-time control systems" },
+      { "title": "IoT Solutions", "description": "Building connected ecosystems with cutting-edge IoT architectures" },
+      { "title": "Innovation", "description": "Driven by curiosity and constant learning in AI, automation, and connected systems" },
+      { "title": "Excellence", "description": "Delivering reliable, optimized, and future-ready technological solutions" }
+    ]
+  },
+  "skills": {
+    "heading": "Technical Skills",
+    "subheading": "A comprehensive toolkit for building modern, intelligent applications",
+    "categories": [
+      { "name": "Embedded Systems", "skills": ["STM32", "Arduino", "Raspberry Pi", "ESP32", "SPI/UART/I2C", "Real-time control"] },
+      { "name": "Programming Languages", "skills": ["C", "C++", "Python", "JavaScript", "VHDL-AMS", "Kotlin"] },
+      { "name": "Web Development", "skills": ["React", "Node.js", "HTML/CSS", "REST APIs"] },
+      { "name": "Tools & Technologies", "skills": ["Git", "Postman", "STM32CubeMX", "LabView", "Android Studio", "VS Code"] },
+      { "name": "Data & Databases", "skills": ["MySQL", "Firebase"] },
+      { "name": "AI & Machine Learning", "skills": ["YOLOv8", "MediaPipe", "TensorFlow"] }
+    ]
+  },
+  "projects": {
+    "heading": "Featured Projects",
+    "subheading": "Showcasing innovative solutions and creative implementations",
+    "categories": ["All", "Embedded", "IoT", "Mobile", "AI"],
+    "items": [
+      {
+        "id": 1,
+        "title": "IdentiPass",
+        "category": "Mobile",
+        "description": "A secure multi-technology authentication system leveraging QR codes and Mifare Ultralight C NFC cards, supported by a J2EE backend and an Android/Kotlin application.",
+        "longDescription": "Design and development of an innovative authentication solution combining signed QR codes and Mifare Ultralight C NFC cards. The system integrates an Android Kotlin application for credential reading, a secure Java EE backend with REST APIs, and a comprehensive web administration interface. Implementation of advanced security mechanisms including HMAC-SHA256 signatures, password attempt limiting, and centralized access management. A modular architecture enabling flexible and robust authentication for both physical and logical access control. This end-to-end solution demonstrates modern secure development practices across mobile, backend, and web technologies.",
+        "technologies": ["Kotlin", "Java EE", "MySQL", "Android Studio", "Postman", "Git"],
+        "image": "/projects/identipass.png",
+        "github": "",
+        "demo": "",
+        "featured": true
+      },
+      {
+        "id": 2,
+        "title": "Simon Says",
+        "category": "Embedded",
+        "description": "An embedded Simon Says game implementation using STM32 and LCD display for interactive memory challenges.",
+        "longDescription": "A complete memory game system built from scratch, integrating embedded programming, real-time control, and interactive user interface. The system uses STM32 for core game logic and LED sequence control, push buttons for player input, and an I2C LCD display for instructions and feedback. The project also incorporates difficulty selection and progressive complexity with visual and timing challenges.",
+        "technologies": ["STM32", "C", "I2C", "STM32CubeMX"],
+        "image": "/projects/simon-says.png",
+        "github": "",
+        "demo": "",
+        "featured": true
+      },
+      {
+        "id": 3,
+        "title": "Intelligent Monitoring and Detection Systems",
+        "category": "AI",
+        "description": "An AI-powered patient monitoring system using embedded vision and real-time audio analysis for medical emergency detection.",
+        "longDescription": "A comprehensive healthcare monitoring solution built from scratch, integrating computer vision, deep learning, and IoT connectivity. The system uses Raspberry Pi 3 with USB cameras for real-time video analysis, YOLOv8 and MediaPipe for fall and seizure detection, and custom audio models for scream detection. The project implements Firebase Cloud Firestore for real-time alerts, a dedicated mobile application for healthcare staff notifications, and GPIO-controlled LED indicators for immediate visual feedback. This end-to-end system provides continuous patient monitoring without wearable devices, ensuring rapid emergency response in clinical environments.",
+        "technologies": ["Python", "Raspberry Pi", "Firebase", "YOLOv8", "MediaPipe", "TensorFlow"],
+        "image": "/projects/monitoring-system.png",
+        "github": "",
+        "demo": "",
+        "featured": true
+      }
+    ]
+  },
+  "experience": {
+    "heading": "Experience & Achievements",
+    "subheading": "A timeline of growth, learning, and accomplishments",
+    "timeline": [
+      {
+        "id": 1,
+        "role": "Internship",
+        "company": "TELNET HOLDING",
+        "period": "June 2025 - August 2025",
+        "location": "Tunisia",
+        "description": "Developed IdentiPass, a secure multi-technology authentication system combining QR codes and NFC technology with a complete backend and mobile application.",
+        "technologies": ["Kotlin", "Java EE", "MySQL", "Android Studio", "REST APIs"],
+        "type": "work"
+      },
+      {
+        "id": 2,
+        "role": "Internship",
+        "company": "Advanced Electronic Systems and Sustainable Energy Laboratory, ENET'Com",
+        "period": "June 2024 - July 2024",
+        "location": "Sfax, Tunisia",
+        "description": "Developed an embedded TIC-TAC-TOE game using microcontroller programming and real-time control systems.",
+        "technologies": ["STM32", "C", "Embedded Systems"],
+        "type": "work"
+      },
+      {
+        "id": 3,
+        "role": "Internship",
+        "company": "Sfax-Thyna Airport",
+        "period": "July 2024 - August 2024",
+        "location": "Sfax, Tunisia",
+        "description": "Air Traffic Operations & Technical Support Internship - Gained hands-on experience in aviation systems, technical infrastructure, and operational support.",
+        "technologies": ["Aviation Systems", "Technical Support", "Operations Management"],
+        "type": "work"
+      },
+      {
+        "id": 4,
+        "role": "Engineering Degree",
+        "company": "National School of Electronics and Telecommunications of Sfax (ENET'Com)",
+        "period": "2023 - Present",
+        "location": "Sfax, Tunisia",
+        "description": "Engineering Degree in Electronics of Communication Systems Engineering with specialization in Embedded Systems and IoT.",
+        "technologies": [],
+        "type": "education"
+      },
+      {
+        "id": 5,
+        "role": "Preparatory Cycle",
+        "company": "Preparatory Engineering Institute of Sfax",
+        "period": "2021 - 2023",
+        "location": "Sfax, Tunisia",
+        "description": "Preparatory cycle for engineering studies in Physics-Technology, building a strong foundation in mathematics, physics, and engineering fundamentals.",
+        "technologies": [],
+        "type": "education"
+      }
+      ,
+      {
+        "id": 6,
+        "role": "High school Diploma in Technical Sciences",
+        "company": "Secandary School Hedi Soussi",
+        "period": "2017 - 2021",
+        "location": "Sfax, Tunisia",
+        "description": "",
+        "technologies": [],
+        "type": "education"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Let's Connect",
+    "subheading": "Have a project in mind or just want to exchange ideas? I'd love to collaborate.",
+    "info": [
+      { "label": "Email", "value": "zainebchakroun17@gmail.com", "href": "mailto:zainebchakroun17@gmail.com" },
+      { "label": "GitHub", "value": "ZainebChakroun", "href": "https://github.com/ZainebChakroun" },
+      { "label": "Location", "value": "Tunisia", "href": "#" }
+    ],
+    "ctaText": "Ready to build the future together?",
+    "ctaSub": "Whether it's embedded innovation, IoT solutions, or intelligent systems, I'm always open to creating technology that matters.",
+    "cv": "/Zaineb_Resume.pdf"
+  },
+  "footer": {
+    "brandName": "Zaineb Chakroun",
+    "tagline": "Built with passion",
+    "quickLinks": ["Home", "About", "Skills", "Projects", "Experience", "Contact"],
+    "copyright": "All rights reserved"
+  }
+}
